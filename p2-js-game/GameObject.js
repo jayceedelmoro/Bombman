@@ -17,7 +17,8 @@ class GameObjects {
 class Person extends GameObjects {
     constructor(config) {
         super(config);
-        // this.remainingMovement = 0;
+
+        this.mainCharacter = config.mainCharacter || false;
 
         this.directionMovement = {
             'up': ['locationY', -1],
@@ -30,9 +31,8 @@ class Person extends GameObjects {
     update(state) {
         this.updatePosition();
 
-        if (state.arrow) {
+        if (this.mainCharacter && state.arrow) {
             this.direction = state.arrow;
-            // this.remainingMovement = 16;
         } else {
             this.direction = null;
         }
@@ -42,7 +42,6 @@ class Person extends GameObjects {
         if(this.direction !== null) {
             const [property, change] = this.directionMovement[this.direction];
             this[property] += change;
-            // this.remainingMovement -= 1;
         }
     }
 }

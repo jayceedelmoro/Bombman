@@ -8,9 +8,10 @@ window.worldMaps = {
     Demo: {
         gameObjects: {
             hero: new Person({
-                    locationX: utils.grid(0),
-                    locationY: utils.grid(0),
-                })
-        }
+                mainCharacter: true,
+                locationX: utils.grid(0),
+                locationY: utils.grid(0),
+            })
+    }
     }
 }
