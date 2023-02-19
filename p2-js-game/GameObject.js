@@ -8,12 +8,16 @@ class GameObjects {
             src: config.src || 'assets/character/people/DemoRpgCharacter.png',
         });
     }
+
+    update() {
+
+    }
 }
 
 class Person extends GameObjects {
     constructor(config) {
         super(config);
-        this.remainingMovement = 16;
+        // this.remainingMovement = 0;
 
         this.directionMovement = {
             'up': ['locationY', -1],
@@ -25,13 +29,20 @@ class Person extends GameObjects {
 
     update(state) {
         this.updatePosition();
+
+        if (state.arrow) {
+            this.direction = state.arrow;
+            // this.remainingMovement = 16;
+        } else {
+            this.direction = null;
+        }
     }
 
     updatePosition() {
-        if(this.remainingMovement > 0) {
+        if(this.direction !== null) {
             const [property, change] = this.directionMovement[this.direction];
             this[property] += change;
-            this.remainingMovement -= 1;
+            // this.remainingMovement -= 1;
         }
     }
 }
