@@ -2,7 +2,7 @@ class GameObjects {
     constructor(config) {
         this.locationX = config.locationX || 0;
         this.locationY = config.locationY || 0;
-        this.direction = config.direction || 'down';
+        this.direction = config.directionMain || 'down';
         this.lastFrame = config.lastFrame;
         this.sprite = new Sprite({
             gameObject: this,
@@ -20,6 +20,7 @@ class Person extends GameObjects {
         super(config);
 
         this.mainCharacter = config.mainCharacter || false;
+        this.npc = config.npc || false;
 
         this.directionMovement = {
             'up': ['locationY', -2],
@@ -38,11 +39,16 @@ class Person extends GameObjects {
         } else {
             this.direction = null;
         }
+
+        if (this.npc) {
+            const randomDirection = Object.keys(this.directionMovement);
+            this.direction = randomDirection[Math.floor(Math.random() * 4)];
+        }
     }
 
     updatePosition() {
         if(this.direction !== null) {
-            const [property, change] = this.directionMovement[this.direction];
+            let [property, change] = this.directionMovement[this.direction];
             this[property] += change;
         }
     }
