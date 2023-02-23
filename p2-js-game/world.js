@@ -14,7 +14,8 @@ class World {
             // Draw Objects
             Object.values(this.map.gameObjects).forEach(object => {
                 object.update({
-                    arrow: this.directionInput.pressedDirection
+                    arrow: this.directionInput.pressedDirection,
+                    map: this.map,
                 });
                 object.sprite.draw(this.ctx);
             })
@@ -28,6 +29,8 @@ class World {
 
     init() {
         this.map = new WorldMap(window.worldMaps.Demo);
+
+        console.log(this.map.walls);
 
         this.directionInput = new Directions();
         this.directionInput.init();

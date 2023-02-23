@@ -24,10 +24,10 @@ class Person extends GameObjects {
 
         //Specify the movement on the canvas
         this.directionMovement = {
-            'up': ['locationY', -2],
-            'down': ['locationY', 2],
-            'left': ['locationX', -2],
-            'right': ['locationX', 2]
+            'up': ['locationY', -1],
+            'down': ['locationY', 1],
+            'left': ['locationX', -1],
+            'right': ['locationX', 1]
         }
     }
 
@@ -38,15 +38,16 @@ class Person extends GameObjects {
         //Moves Main Character if a movement direction is pressed
         if (this.mainCharacter && state.arrow) {
             this.direction = state.arrow;
+            console.log(state.map.isSpaceTaken(this.locationX, this.locationY, this.direction));
         } else {
             this.direction = null;
         }
 
         //Randomize NPC movement
-        if (this.npc) {
-            const randomDirection = Object.keys(this.directionMovement);
-            this.direction = randomDirection[Math.floor(Math.random() * 4)];
-        }
+        // if (this.npc) {
+        //     const randomDirection = Object.keys(this.directionMovement);
+        //     this.direction = randomDirection[Math.floor(Math.random() * 4)];
+        // }
     }
 
     //Update Character's Positions
