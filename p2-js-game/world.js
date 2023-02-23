@@ -30,6 +30,7 @@ class World {
     init() {
         this.map = new WorldMap(window.worldMaps.Demo);
 
+        this.map.asGridCoords(0,1);
         console.log(this.map.walls);
 
         this.directionInput = new Directions();

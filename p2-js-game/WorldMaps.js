@@ -4,6 +4,24 @@ class WorldMap {
         this.walls = config.walls || {};
     }
 
+    asGridCoords(x,y) {
+        let wallX = x*16;
+        let wallY = y*16;   
+        for (let countX = wallX; countX < wallX+16; countX++) {
+            this.walls[`${countX}, ${wallY}`] = true;
+
+            // if (countX == wallX+15){
+            //     for (let countY = wallX+16; countY > wallY-16; countY--) {
+            //         this.walls[`${countX}, ${countY}`] = true;
+            //     }
+            // }
+        }
+
+        // for (let countX = wallX; countX > wallX-16; countX--) {
+        //     this.walls[`${countX}, ${wallY}`] = true;
+        // }
+    }
+
     isSpaceTaken(currentX, currentY, direction) {
         const {x,y} = utils.nextPosition(currentX, currentY, direction);
         return this.walls[`${x}, ${y}`] || false;
@@ -24,8 +42,8 @@ window.worldMaps = {
                 locationY: utils.grid(1),
             })
         },
-        walls: {
-            [utils.asGridCoords(0,1)] : true,
-        }
+        // walls: {
+        //     // [utils.asGridCoords(0,1)] : true,
+        // }
     }
 }

@@ -2,9 +2,13 @@ const utils = {
     grid(n) {
         return n * 16;
     },
-    asGridCoords(x,y) {
-        return `${x*16}, ${y*16}`;
-    },
+    // asGridCoords(x,y) {
+    //     // this.map = new WorldMap(walls);
+    //     // return this.walls[`${x}, ${y}`] = true;
+    //     for (let i = 0; i < 10; i++) {
+    //         return `${x*16+i}, ${y*16+i}`;
+    //     }
+    // },
     nextPosition(initialX, initialY, direction) {
         let x = initialX;
         let y = initialY;
@@ -19,7 +23,7 @@ const utils = {
         } else if (direction === 'right') {
             x += size;
         }
-
+        
         return {x,y};
     }
 }

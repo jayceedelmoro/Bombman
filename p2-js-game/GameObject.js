@@ -32,13 +32,17 @@ class Person extends GameObjects {
     }
 
     update(state) {
-        this.updatePosition();
+        // this.updatePosition();
+        this.isWall = state.map.isSpaceTaken(this.locationX, this.locationY, this.direction);
         this.updateSpriteDirection(state);
 
         //Moves Main Character if a movement direction is pressed
         if (this.mainCharacter && state.arrow) {
             this.direction = state.arrow;
-            console.log(state.map.isSpaceTaken(this.locationX, this.locationY, this.direction));
+            console.log(this.isWall, this.locationX, this.locationY);
+            if(!this.isWall) {
+                this.updatePosition();
+            }
         } else {
             this.direction = null;
         }
