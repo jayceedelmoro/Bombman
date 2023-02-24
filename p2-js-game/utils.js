@@ -2,30 +2,35 @@ const utils = {
     grid(n) {
         return n * 16;
     },
+
+    boundary(canvas) {
+        let canvasHeight = canvas.height;
+        let canvasWidth = canvas.width;
+        
+        return {canvasHeight,canvasWidth};
+    }
     // asGridCoords(x,y) {
     //     // this.map = new WorldMap(walls);
     //     // return this.walls[`${x}, ${y}`] = true;
-    //     for (let i = 0; i < 10; i++) {
-    //         return `${x*16+i}, ${y*16+i}`;
-    //     }
+    //         return `${x*16}, ${y*16}`;
     // },
-    nextPosition(initialX, initialY, direction) {
-        let x = initialX;
-        let y = initialY;
-        const size = 16;
+    // nextPosition(initialX, initialY, direction) {
+    //     let x = initialX;
+    //     let y = initialY;
+    //     const size = 16;
 
-        if (direction === 'up') {
-            y -= size;
-        } else if (direction === 'down') {
-            y += size;
-        } else if (direction === 'left') {
-            x -= size;
-        } else if (direction === 'right') {
-            x += size;
-        }
+    //     if (direction === 'up') {
+    //         y -= size;
+    //     } else if (direction === 'down') {
+    //         y += size;
+    //     } else if (direction === 'left') {
+    //         x -= size;
+    //     } else if (direction === 'right') {
+    //         x += size;
+    //     }
         
-        return {x,y};
-    }
+    //     return {x,y};
+    // }
 }
 
 class Directions {

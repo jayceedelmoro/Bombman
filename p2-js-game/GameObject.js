@@ -10,9 +10,9 @@ class GameObjects {
         });
     }
 
-    update() {
+    // update() {
 
-    }
+    // }
 }
 
 class Person extends GameObjects {
@@ -32,17 +32,20 @@ class Person extends GameObjects {
     }
 
     update(state) {
-        // this.updatePosition();
-        this.isWall = state.map.isSpaceTaken(this.locationX, this.locationY, this.direction);
         this.updateSpriteDirection(state);
 
         //Moves Main Character if a movement direction is pressed
         if (this.mainCharacter && state.arrow) {
             this.direction = state.arrow;
-            console.log(this.isWall, this.locationX, this.locationY);
-            if(!this.isWall) {
+            this.isThereWall = state.map.isSpaceTaken(this.locationX, this.locationY, this.direction);
+            this.updateSpriteDirection(state);
+            
+            if(!this.isThereWall) {
                 this.updatePosition();
             }
+            console.log(this.locationX, this.locationY);
+
+
         } else {
             this.direction = null;
         }
@@ -59,6 +62,9 @@ class Person extends GameObjects {
         if(this.direction !== null) {
             let [property, change] = this.directionMovement[this.direction];
             this[property] += change;
+        }
+        else {
+            return;
         }
     }
 
