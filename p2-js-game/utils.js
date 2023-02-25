@@ -2,6 +2,20 @@ const utils = {
     grid(n) {
         return n * 16;
     },
+
+    drawWholeMap(ctx, image, width, height) {
+        for (let countX = 0; countX < width; countX += 32) {
+            for (let countY = 0; countY < height; countY += 32) {
+                ctx.drawImage(
+                    image,
+                    0, 0,
+                    32, 32,
+                    countX, countY,
+                    16, 16
+                );
+            }
+        }
+    }
 }
 
 class Directions {

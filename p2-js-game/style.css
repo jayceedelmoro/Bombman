@@ -14,8 +14,8 @@ main {
 
 .game-container {
     position: relative;
-    width: 352px;
-    height: 198px;
+    width: 368px;
+    height: 208px;
     margin: auto;
     top: 50%;
     outline: 1px solid #FFF;

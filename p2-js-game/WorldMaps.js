@@ -14,14 +14,19 @@ class WorldMap {
         this.canvasWidth = canvas.width;
         this.canvasHeight = canvas.height;
 
-        ctx.drawImage(this.mapImage, 0, 0, this.canvasWidth*12, this.canvasHeight*12, 0, 0, 352, 198);
+        utils.drawWholeMap(ctx, this.mapImage, this.canvasWidth, this.canvasHeight);
+
     }
 
     asGridCoords(x,y) {
         let wallX = x*16;
-        let wallY = y*16;   
-            this.walls.push([wallX, wallY]);
-            // return this.walls[`${wallX}, ${wallY}`];
+        let wallY = y*16;
+
+        for (let countX = 0; countX < this.canvasWidth; countX += 32) {
+            for (let countY = 0; countY < this.canvasHeight; countY += 32) {
+                this.walls.push([countX, countY]);
+            }
+        }
     }
 
     isSpaceTaken(currentX, currentY, direction) {
@@ -32,41 +37,41 @@ class WorldMap {
 
         if(direction === 'up' ) {
             for(let countX = 0; countX < this.walls.length; countX++){
-                if(currentY-1 >= this.walls[countX][1]-16 &&
-                    currentY <= this.walls[countX][1]+16 &&
-                    currentX-1 >= this.walls[countX][0]-16 &&
-                    currentX+1 <= this.walls[countX][0]+16 ||
+                if(currentY-1 >= this.walls[countX][1] - 16 &&
+                    currentY <= this.walls[countX][1] + 16 &&
+                    currentX-1 >= this.walls[countX][0] - 14 &&
+                    currentX+1 <= this.walls[countX][0] + 14 ||
                     currentY < 0) {
                     isWall = true;
                 }
             }
         } else if(direction === 'down') {
             for(let countX = 0; countX < this.walls.length; countX++){
-                if(currentY >= this.walls[countX][1]-16 &&
-                    currentY+1 <= this.walls[countX][1]+16 &&
-                    currentX-1 >= this.walls[countX][0]-16 &&
-                    currentX+1 <= this.walls[countX][0]+16 ||
+                if(currentY >= this.walls[countX][1] - 16 &&
+                    currentY+1 <= this.walls[countX][1] + 16 &&
+                    currentX-1 >= this.walls[countX][0] - 14 &&
+                    currentX+1 <= this.walls[countX][0] + 14 ||
                     currentY > this.canvasHeight - 26) {
                     isWall = true;
                 }
             }
         } else if(direction === 'left') {
             for(let countX = 0; countX < this.walls.length; countX++){
-                if(currentY-1 >= this.walls[countX][1]-16 &&
-                    currentY+1 <= this.walls[countX][1]+16 &&
-                    currentX-1 >= this.walls[countX][0]-16 &&
-                    currentX <= this.walls[countX][0]+16 ||
+                if(currentY-1 >= this.walls[countX][1] - 16 &&
+                    currentY+1 <= this.walls[countX][1] + 16 &&
+                    currentX-1 >= this.walls[countX][0] - 14 &&
+                    currentX <= this.walls[countX][0] + 14 ||
                     currentX < 0) {
                     isWall = true;
                 }
             }
         } else if(direction === 'right') {
             for(let countX = 0; countX < this.walls.length; countX++){
-                if(currentY-1 >= this.walls[countX][1]-16 &&
-                    currentY+1 <= this.walls[countX][1]+16 &&
-                    currentX >= this.walls[countX][0]-16 &&
-                    currentX+1 <= this.walls[countX][0]+16 ||
-                    currentX > this.canvasWidth-20) {
+                if(currentY-1 >= this.walls[countX][1] - 16 &&
+                    currentY+1 <= this.walls[countX][1] + 16 &&
+                    currentX >= this.walls[countX][0] - 14 &&
+                    currentX+1 <= this.walls[countX][0] + 14 ||
+                    currentX > this.canvasWidth - 20) {
                     isWall = true;
                 }
             }
@@ -77,18 +82,18 @@ class WorldMap {
 
 window.worldMaps = {
     Demo: {
-        mapSrc: 'assets/maps/map.png',
+        mapSrc: 'assets/maps/Blocks.png',
         gameObjects: {
             hero: new Person({
                 mainCharacter: true,
-                locationX: utils.grid(0),
+                locationX: utils.grid(1),
                 locationY: utils.grid(0),
             }),
-            sub: new Person({
-                npc: true,
-                locationX: utils.grid(0),
-                locationY: utils.grid(1),
-            })
+            // sub: new Person({
+            //     npc: true,
+            //     locationX: utils.grid(0),
+            //     locationY: utils.grid(1),
+            // })
         },
         
     }

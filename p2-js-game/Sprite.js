@@ -68,23 +68,23 @@ class Sprite {
 
     //Draws Objects on canvas
     draw (ctx) {
-        const locationX = this.gameObject.locationX - 5;
-        const locationY = this.gameObject.locationY - 8;
+        const locationX = this.gameObject.locationX;
+        const locationY = this.gameObject.locationY;
 
         //Specify which frame coordinates to show
         const [frameX, frameY] = this.frame;
 
         this.isShadowLoaded && ctx.drawImage(
             this.shadow,
-            locationX, locationY
+            locationX - 8, locationY - 14
         );
         
         this.isLoaded && ctx.drawImage(
                 this.image, //img src
-                frameX * 32, frameY * 32, //starting point of the cut in the image
-                32, 32, // size of the cut
+                (frameX * 32)+8, (frameY * 32)+14, //starting point of the cut in the image
+                14, 16, // size of the cut
                 locationX, locationY, //location on the canvas
-                32, 32 //how big is the image
+                14, 16  //how big is the image
         )
 
         this.updateAnimation();

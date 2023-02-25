@@ -81,3 +81,9 @@ class Person extends GameObjects {
         }
     }
 }
+
+class BreakableBlocks extends GameObjects {
+    constructor(config) {
+        super(config);
+    }
+}

@@ -11,6 +11,7 @@ class World {
             // Clear canvas
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
             
+            // Draw Map
             this.map.drawMap(this.ctx, this.canvas);
 
             // Draw Objects
@@ -32,13 +33,15 @@ class World {
     init() {
         this.map = new WorldMap(window.worldMaps.Demo);
 
-        this.map.asGridCoords(0,1);
+        // Wall Coordinates
         console.log(this.map.walls);
 
         this.directionInput = new Directions();
         this.directionInput.init();
 
         this.startGameRefresh();
+        // this.map.asGridCoords(0,0);
+        this.map.asGridCoords(2,2);
 
 
     }
