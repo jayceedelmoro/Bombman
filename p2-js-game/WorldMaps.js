@@ -2,7 +2,19 @@ class WorldMap {
     constructor(config) {
         this.gameObjects = config.gameObjects;
         this.canvas = document.querySelector('.game-canvas');
-        this.walls = config.walls || [];
+        this.walls = config.walls || new Array;
+        this.canvasWidth = config.canvasWidth;
+        this.canvasHeight = config.canvasHeight;
+
+        this.mapImage = new Image();
+        this.mapImage.src = config.mapSrc;
+    }
+
+    drawMap(ctx, canvas) {
+        this.canvasWidth = canvas.width;
+        this.canvasHeight = canvas.height;
+
+        ctx.drawImage(this.mapImage, 0, 0, this.canvasWidth*12, this.canvasHeight*12, 0, 0, 352, 198);
     }
 
     asGridCoords(x,y) {
@@ -15,8 +27,6 @@ class WorldMap {
     isSpaceTaken(currentX, currentY, direction) {
         // const {x,y, wallOccurence} = utils.nextPosition(currentX, currentY, direction);
         // return this.walls[`${x}, ${y}`] || false;
-
-        let canvasSize = utils.boundary(this.canvas);
 
         let isWall;
 
@@ -36,7 +46,7 @@ class WorldMap {
                     currentY+1 <= this.walls[countX][1]+16 &&
                     currentX-1 >= this.walls[countX][0]-16 &&
                     currentX+1 <= this.walls[countX][0]+16 ||
-                    currentY > canvasSize[1] - 26) {
+                    currentY > this.canvasHeight - 26) {
                     isWall = true;
                 }
             }
@@ -56,7 +66,7 @@ class WorldMap {
                     currentY+1 <= this.walls[countX][1]+16 &&
                     currentX >= this.walls[countX][0]-16 &&
                     currentX+1 <= this.walls[countX][0]+16 ||
-                    currentX > canvasSize[0]-20) {
+                    currentX > this.canvasWidth-20) {
                     isWall = true;
                 }
             }
@@ -67,6 +77,7 @@ class WorldMap {
 
 window.worldMaps = {
     Demo: {
+        mapSrc: 'assets/maps/map.png',
         gameObjects: {
             hero: new Person({
                 mainCharacter: true,
@@ -79,7 +90,6 @@ window.worldMaps = {
                 locationY: utils.grid(1),
             })
         },
-        // walls: []
         
     }
 }

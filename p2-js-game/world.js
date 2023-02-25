@@ -10,6 +10,8 @@ class World {
         const step = () => {
             // Clear canvas
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            
+            this.map.drawMap(this.ctx, this.canvas);
 
             // Draw Objects
             Object.values(this.map.gameObjects).forEach(object => {

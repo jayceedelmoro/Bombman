@@ -2,13 +2,6 @@ const utils = {
     grid(n) {
         return n * 16;
     },
-
-    boundary(canvas) {
-        let canvasHeight = canvas.height;
-        let canvasWidth = canvas.width;
-        
-        return [canvasWidth,canvasHeight];
-    },
 }
 
 class Directions {
