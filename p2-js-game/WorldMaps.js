@@ -1,7 +1,7 @@
 class WorldMap {
     constructor(config) {
         this.gameObjects = config.gameObjects;
-        // this.walls = config.walls || {};
+        this.canvas = document.querySelector('.game-canvas');
         this.walls = config.walls || [];
     }
 
@@ -16,14 +16,17 @@ class WorldMap {
         // const {x,y, wallOccurence} = utils.nextPosition(currentX, currentY, direction);
         // return this.walls[`${x}, ${y}`] || false;
 
+        let canvasSize = utils.boundary(this.canvas);
+
         let isWall;
 
-        if(direction === 'up') {
+        if(direction === 'up' ) {
             for(let countX = 0; countX < this.walls.length; countX++){
                 if(currentY-1 >= this.walls[countX][1]-16 &&
                     currentY <= this.walls[countX][1]+16 &&
                     currentX-1 >= this.walls[countX][0]-16 &&
-                    currentX+1 <= this.walls[countX][0]+16) {
+                    currentX+1 <= this.walls[countX][0]+16 ||
+                    currentY < 0) {
                     isWall = true;
                 }
             }
@@ -32,7 +35,8 @@ class WorldMap {
                 if(currentY >= this.walls[countX][1]-16 &&
                     currentY+1 <= this.walls[countX][1]+16 &&
                     currentX-1 >= this.walls[countX][0]-16 &&
-                    currentX+1 <= this.walls[countX][0]+16) {
+                    currentX+1 <= this.walls[countX][0]+16 ||
+                    currentY > canvasSize[1] - 26) {
                     isWall = true;
                 }
             }
@@ -41,7 +45,8 @@ class WorldMap {
                 if(currentY-1 >= this.walls[countX][1]-16 &&
                     currentY+1 <= this.walls[countX][1]+16 &&
                     currentX-1 >= this.walls[countX][0]-16 &&
-                    currentX <= this.walls[countX][0]+16) {
+                    currentX <= this.walls[countX][0]+16 ||
+                    currentX < 0) {
                     isWall = true;
                 }
             }
@@ -50,7 +55,8 @@ class WorldMap {
                 if(currentY-1 >= this.walls[countX][1]-16 &&
                     currentY+1 <= this.walls[countX][1]+16 &&
                     currentX >= this.walls[countX][0]-16 &&
-                    currentX+1 <= this.walls[countX][0]+16) {
+                    currentX+1 <= this.walls[countX][0]+16 ||
+                    currentX > canvasSize[0]-20) {
                     isWall = true;
                 }
             }

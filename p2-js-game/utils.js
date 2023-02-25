@@ -7,30 +7,8 @@ const utils = {
         let canvasHeight = canvas.height;
         let canvasWidth = canvas.width;
         
-        return {canvasHeight,canvasWidth};
-    }
-    // asGridCoords(x,y) {
-    //     // this.map = new WorldMap(walls);
-    //     // return this.walls[`${x}, ${y}`] = true;
-    //         return `${x*16}, ${y*16}`;
-    // },
-    // nextPosition(initialX, initialY, direction) {
-    //     let x = initialX;
-    //     let y = initialY;
-    //     const size = 16;
-
-    //     if (direction === 'up') {
-    //         y -= size;
-    //     } else if (direction === 'down') {
-    //         y += size;
-    //     } else if (direction === 'left') {
-    //         x -= size;
-    //     } else if (direction === 'right') {
-    //         x += size;
-    //     }
-        
-    //     return {x,y};
-    // }
+        return [canvasWidth,canvasHeight];
+    },
 }
 
 class Directions {
