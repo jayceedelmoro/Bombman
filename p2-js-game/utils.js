@@ -3,7 +3,12 @@ const utils = {
         return n * 16;
     },
 
-    drawWholeMap(ctx, image, width, height) {
+    randomPosition(mapSlots) {
+        let position = Math.floor(Math.random()*mapSlots.length);
+        return position;
+    },
+
+    drawWholeMap(ctx, width, height, image) {
         for (let countX = 0; countX < width; countX += 32) {
             for (let countY = 0; countY < height; countY += 32) {
                 ctx.drawImage(

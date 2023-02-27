@@ -33,16 +33,20 @@ class World {
     init() {
         this.map = new WorldMap(window.worldMaps.Demo);
 
-        // Wall Coordinates
-        console.log(this.map.walls);
 
         this.directionInput = new Directions();
         this.directionInput.init();
 
         this.startGameRefresh();
-        // this.map.asGridCoords(0,0);
-        this.map.asGridCoords(2,2);
 
+        //Draw Permanent Walls
+        this.map.permaWalls();
+
+        //Random Hero Starting Position
+        let newHeroLocation = utils.randomPosition(this.map.mapSlots);
+        this.map.gameObjects.hero.locationX = this.map.mapSlots[newHeroLocation][0];
+        this.map.gameObjects.hero.locationY = this.map.mapSlots[newHeroLocation][1];
+        console.log(this.map.mapSlots);
 
     }
 }
