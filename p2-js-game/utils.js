@@ -7,6 +7,48 @@ const utils = {
         let position = Math.floor(Math.random()*mapSlots.length);
         return position;
     },
+    
+    addObject(map) {
+        
+        let position = Math.floor(Math.random()*map.mapSlots.length);
+        
+        //Add Breakable Blocks
+        for (number = 1; number <= 100; number++) {
+
+            position = Math.floor(Math.random()*map.mapSlots.length);
+
+            map.gameObjects[`wall${number}`] = new BreakableBlocks({
+                isNotMovable: true,
+                locationX: map.mapSlots[position][0],
+                locationY: map.mapSlots[position][1],
+                src: 'assets/maps/Brick.png',
+            });
+
+            map.addWall(map.mapSlots[position][0], map.mapSlots[position][1])
+        }
+
+        //Add Hero
+        map.gameObjects['hero'] = new Person({
+            mainCharacter: true,
+            useShadow: true,
+            locationX: map.mapSlots[position][0],
+            locationY: map.mapSlots[position][1],
+        });
+        
+        //Add Monsters
+        for (number = 1; number <= 3; number++) {
+
+            position = Math.floor(Math.random()*map.mapSlots.length);
+
+            map.gameObjects[`monster${number}`] = new Monsters({
+                npc: true,
+                useShadow: true,
+                locationX: map.mapSlots[position][0],
+                locationY: map.mapSlots[position][1],
+                src: 'assets/character/people/DemoRpgCharacter.png',
+            });
+        }
+    },
 
     drawWholeMap(ctx, width, height, image) {
         for (let countX = 0; countX < width; countX += 32) {
@@ -35,7 +77,8 @@ class Directions {
             'KeyW': 'up',
             'KeyS': 'down',
             'KeyA': 'left',
-            'KeyD': 'right'
+            'KeyD': 'right',
+            'Space': 'bomb',
         }
     }
 

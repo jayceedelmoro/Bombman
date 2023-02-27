@@ -10,13 +10,15 @@ class Sprite {
 
         //Shadow
         this.shadow = new Image();
-        this.useShadow = true;
+        this.useShadow = config.useShadow;
         if (this.useShadow) {
             this.shadow.src = 'assets/character/people/DemoRpgCharacterShadow.png';
         }
         this.shadow.onload = () => {
             this.isShadowLoaded = true;
         }
+
+        this.isNotMovable = config.isNotMovable;
 
         // Config Animation and Initial State
         this.animations = config.animations || {
@@ -72,7 +74,25 @@ class Sprite {
         const locationY = this.gameObject.locationY;
 
         //Specify which frame coordinates to show
-        const [frameX, frameY] = this.frame;
+        let [frameX, frameY] = this.frame;
+        let cutSizeX, cutSizeY, sizeX, sizeY = 0;
+
+        if (!this.isNotMovable) {
+            frameX = frameX * 32 + 8;
+            frameY = frameY * 32 + 14;
+            cutSizeX = 14;
+            cutSizeY = 16;
+            sizeX = cutSizeX;
+            sizeY = cutSizeY;
+        } 
+        else {
+            frameX = 0;
+            frameY = 0;
+            cutSizeX = 32;
+            cutSizeY = 32;
+            sizeX = 16;
+            sizeY = 16;
+        }
 
         this.isShadowLoaded && ctx.drawImage(
             this.shadow,
@@ -81,12 +101,35 @@ class Sprite {
         
         this.isLoaded && ctx.drawImage(
                 this.image, //img src
-                (frameX * 32)+8, (frameY * 32)+14, //starting point of the cut in the image
-                14, 16, // size of the cut
+                frameX, frameY, //starting point of the cut in the image
+                cutSizeX, cutSizeY, // size of the cut
                 locationX, locationY, //location on the canvas
-                14, 16  //how big is the image
+                sizeX, sizeY  //how big is the image
         )
 
         this.updateAnimation();
+    }
+}
+
+class Bomb {
+    constructor(config){
+        this.bomb = new Image();
+        this.bomb.src = config.src;
+        this.bomb.onload = () => {
+            this.isBombLoaded = true;
+        }
+    }
+
+    placeBomb(ctx, locationX, locationY) {
+        const bombLocationX = locationX;
+        const bombLocationY = locationY;
+
+        this.isBombLoaded && ctx.drawImage(
+            this.bomb, //img src
+            2, 109, //starting point of the cut in the image
+            18, 18, // size of the cut
+            bombLocationX, bombLocationY, //location on the canvas
+            15, 15  //how big is the image
+        )
     }
 }

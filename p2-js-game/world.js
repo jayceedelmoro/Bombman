@@ -10,9 +10,6 @@ class World {
         const step = () => {
             // Clear canvas
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-            
-            // Draw Map
-            this.map.drawMap(this.ctx, this.canvas);
 
             // Draw Objects
             Object.values(this.map.gameObjects).forEach(object => {
@@ -20,8 +17,12 @@ class World {
                     arrow: this.directionInput.pressedDirection,
                     map: this.map,
                 });
+
                 object.sprite.draw(this.ctx);
             })
+            
+            // Draw Map
+            this.map.drawMap(this.ctx, this.canvas);
 
             requestAnimationFrame(() => {
                 step();
@@ -42,11 +43,7 @@ class World {
         //Draw Permanent Walls
         this.map.permaWalls();
 
-        //Random Hero Starting Position
-        let newHeroLocation = utils.randomPosition(this.map.mapSlots);
-        this.map.gameObjects.hero.locationX = this.map.mapSlots[newHeroLocation][0];
-        this.map.gameObjects.hero.locationY = this.map.mapSlots[newHeroLocation][1];
-        console.log(this.map.mapSlots);
+        utils.addObject(this.map);
 
     }
 }

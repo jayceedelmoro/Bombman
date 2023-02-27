@@ -9,9 +9,6 @@ class WorldMap {
 
         this.mapImage = new Image();
         this.mapImage.src = config.mapSrc;
-
-        this.breakableWalls = new Image();
-        this.breakableWalls.src = config.breakableWallsSrc;
     }
 
     drawMap(ctx, canvas) {
@@ -36,14 +33,6 @@ class WorldMap {
                 this.addWall(countX, countY)
             }
         }
-
-        // for (let index = 0; index < this.mapSlots.length; index++) {
-        //     for (let indexTwo = 0; indexTwo < this.walls.length; indexTwo++) {
-        //         if (JSON.stringify(this.mapSlots[index]) == JSON.stringify(this.walls[indexTwo])) {
-        //             this.mapSlots.splice(index, 1);
-        //         }
-        //     } 
-        // }
     }
 
     addWall(wallX, wallY) {
@@ -78,7 +67,7 @@ class WorldMap {
                     currentY+1 <= this.walls[countX][1] + 16 &&
                     currentX-1 >= this.walls[countX][0] - 14 &&
                     currentX+1 <= this.walls[countX][0] + 14 ||
-                    currentY > this.canvasHeight - 26) {
+                    currentY > this.canvasHeight - 18) {
                     isWall = true;
                 }
             }
@@ -98,7 +87,7 @@ class WorldMap {
                     currentY+1 <= this.walls[countX][1] + 16 &&
                     currentX >= this.walls[countX][0] - 14 &&
                     currentX+1 <= this.walls[countX][0] + 14 ||
-                    currentX > this.canvasWidth - 20) {
+                    currentX > this.canvasWidth - 15) {
                     isWall = true;
                 }
             }
@@ -110,11 +99,10 @@ class WorldMap {
 window.worldMaps = {
     Demo: {
         mapSrc: 'assets/maps/Blocks.png',
-        breakableWallsSrc: 'assets/maps/Blocks.png',
         gameObjects: {
-            hero: new Person({
-                mainCharacter: true,
-            }),
+            // hero: new Person({
+            //     mainCharacter: true,
+            // }),
             // sub: new Person({
             //     npc: true,
             //     locationX: utils.grid(0),

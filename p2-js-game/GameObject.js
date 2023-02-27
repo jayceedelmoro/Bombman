@@ -1,5 +1,7 @@
 class GameObjects {
     constructor(config) {
+        this.canvas = document.querySelector('.game-canvas');
+        this.ctx = this.canvas.getContext('2d');
         this.locationX = config.locationX || 0;
         this.locationY = config.locationY || 0;
         this.direction = config.directionMain || 'down';
@@ -7,12 +9,18 @@ class GameObjects {
         this.sprite = new Sprite({
             gameObject: this,
             src: config.src || 'assets/character/people/DemoRpgCharacter.png',
+            useShadow: config.useShadow || false,
+            isNotMovable: config.isNotMovable || false,
+        });
+        this.bomb = new Bomb({
+            gameObject: this,
+            src: 'assets/character/people/bomber.png',
         });
     }
 
-    // update() {
+    update() {
 
-    // }
+    }
 }
 
 class Person extends GameObjects {
@@ -27,7 +35,8 @@ class Person extends GameObjects {
             'up': ['locationY', -1],
             'down': ['locationY', 1],
             'left': ['locationX', -1],
-            'right': ['locationX', 1]
+            'right': ['locationX', 1],
+            'bomb': null,
         }
     }
 
@@ -35,7 +44,7 @@ class Person extends GameObjects {
         this.updateSpriteDirection(state);
 
         //Moves Main Character if a movement direction is pressed
-        if (this.mainCharacter && state.arrow) {
+        if (this.mainCharacter && state.arrow && state.arrow !== 'bomb') {
             this.direction = state.arrow;
             this.isThereWall = state.map.isSpaceTaken(this.locationX, this.locationY, this.direction);
             this.updateSpriteDirection(state);
@@ -46,15 +55,13 @@ class Person extends GameObjects {
             console.log(this.locationX, this.locationY);
 
 
-        } else {
+        }
+        else if (this.mainCharacter && state.arrow && state.arrow === 'bomb') {
+            this.bomb.placeBomb(this.ctx, this.locationX, this.locationY);
+        }
+        else {
             this.direction = null;
         }
-
-        //Randomize NPC movement
-        // if (this.npc) {
-        //     const randomDirection = Object.keys(this.directionMovement);
-        //     this.direction = randomDirection[Math.floor(Math.random() * 4)];
-        // }
     }
 
     //Update Character's Positions
@@ -82,8 +89,52 @@ class Person extends GameObjects {
     }
 }
 
-class BreakableBlocks extends GameObjects {
+class Monsters extends Person{
     constructor(config) {
         super(config);
     }
+    update(state) {
+
+        //Randomize movement
+        if (this.npc) {
+            const randomDirection = Object.keys(this.directionMovement);
+            this.direction = randomDirection[Math.floor(Math.random() * 4)];
+            this.isThereWall = state.map.isSpaceTaken(this.locationX, this.locationY, this.direction);
+            this.updateSpriteDirection(state);
+            
+            if(!this.isThereWall) {
+                this.updatePosition();
+            }
+        }
+    }
+}
+
+class BreakableBlocks extends Person{
+    constructor(config) {
+        super(config);
+    }
+
+    // update(state) {
+    //     this.updateSpriteDirection(state);
+
+    //     //Moves Main Character if a movement direction is pressed
+    //     if (this.mainCharacter && state.arrow) {
+
+    //     } else {
+    //         this.direction = null;
+    //     }
+    // }
+
+    // updateSpriteDirection(state) {
+    //     //Adds animation and specify the direction the character is facing
+    //     if(this.direction != null) {
+    //         this.sprite.changeAnimation(`walk-${this.direction}`);
+    //         this.lastFrame = this.sprite.currentAnimationFrame;
+    //     }
+        
+    //     //Pause at the last frame when the character stops moving
+    //     else {
+    //         this.sprite.currentAnimationFrame = this.lastFrame;
+    //     }
+    // }
 }
