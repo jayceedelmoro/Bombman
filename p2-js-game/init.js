@@ -1,11 +1,14 @@
-(function() {
+function load() {
     const world = new World({
         element: document.querySelector('.game-container')
     });
 
     world.init();
-})();
+};
 
+
+let buttonStart = document.getElementById("start");
+buttonStart.addEventListener("click", load)
 
 // let canvas = document.querySelector('.game-canvas');
 // let ctx = canvas.getContext('2d');
