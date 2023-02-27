@@ -25,3 +25,15 @@ main {
 .game-container canvas {
     image-rendering: pixelated;
 }
+
+#howto {
+    position: absolute;
+    top: 50;
+    left: 0;
+    color: #FFF;
+    font-size: 20px;
+}
+
+#howto p, h3 {
+    white-space: pre;
+}
