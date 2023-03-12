@@ -113,17 +113,20 @@ class Sprite {
 
 class Bomb {
     constructor(config){
+        
         this.bomb = new Image();
         this.bomb.src = config.src;
         this.bomb.onload = () => {
             this.isBombLoaded = true;
         }
+        
+        this.gameObject = config.gameObject;
     }
 
-    placeBomb(ctx, locationX, locationY) {
-        const bombLocationX = locationX;
-        const bombLocationY = locationY;
-
+    placeBomb(ctx) {
+        const bombLocationX = this.gameObject.locationX;
+        const bombLocationY = this.gameObject.locationY;
+        
         this.isBombLoaded && ctx.drawImage(
             this.bomb, //img src
             2, 109, //starting point of the cut in the image

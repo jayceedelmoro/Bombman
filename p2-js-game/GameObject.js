@@ -30,6 +30,15 @@ class Person extends GameObjects {
         this.mainCharacter = config.mainCharacter || false;
         this.npc = config.npc || false;
 
+        //Specify bombs
+        this.bombCount = 2;
+        this.existingBomb = 0;
+        this.existingBombArray = [];
+
+        for(let count = 0; count < this.bombCount; count++) {
+            this.existingBombArray.push(0);
+        }
+
         //Specify the movement on the canvas
         this.directionMovement = {
             'up': ['locationY', -1],
@@ -52,12 +61,30 @@ class Person extends GameObjects {
             if(!this.isThereWall) {
                 this.updatePosition();
             }
-            console.log(this.locationX, this.locationY);
 
 
         }
         else if (this.mainCharacter && state.arrow && state.arrow === 'bomb') {
-            this.bomb.placeBomb(this.ctx, this.locationX, this.locationY);
+            if (this.existingBomb < this.bombCount) {
+                for (let index = 0; index < this.existingBombArray.length; index++) {
+                    if (this.existingBombArray[index] == 0) {
+                        state.map.gameObjects[`bomb${index}`] = new BombBlock({
+                            locationX: this.locationX,
+                            locationY: this.locationY,
+                        });
+                        this.existingBomb +=1;
+                        this.existingBombArray[index] = 1;
+
+                        setTimeout(() => {
+                            delete state.map.gameObjects[`bomb${index}`];
+                            this.existingBomb -=1;
+                            this.existingBombArray[index] = 0;
+                        }, 2000);
+                        console.log(this.existingBombArray);
+                        return;
+                    }
+                }
+            }
         }
         else {
             this.direction = null;
@@ -137,4 +164,10 @@ class BreakableBlocks extends Person{
     //         this.sprite.currentAnimationFrame = this.lastFrame;
     //     }
     // }
+}
+
+class BombBlock extends GameObjects {
+    constructor(config) {
+        super(config);
+    }
 }

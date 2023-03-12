@@ -35,7 +35,7 @@ const utils = {
             locationY: map.mapSlots[position][1],
         });
         
-        //Add Monsters
+        // Add Monsters
         for (number = 1; number <= 3; number++) {
 
             position = Math.floor(Math.random()*map.mapSlots.length);
@@ -48,6 +48,13 @@ const utils = {
                 src: 'assets/character/people/DemoRpgCharacter.png',
             });
         }
+
+        // Add Bomb
+        // map.gameObjects['bomb'] = new GameObjects({
+        //     bombLocationX: 0,
+        //     bombLocationY: 16,
+        // });
+        
     },
 
     drawWholeMap(ctx, width, height, image) {

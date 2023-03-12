@@ -18,7 +18,12 @@ class World {
                     map: this.map,
                 });
 
-                object.sprite.draw(this.ctx);
+
+                if (object instanceof BombBlock) {
+                    object.bomb.placeBomb(this.ctx);
+                } else {
+                    object.sprite.draw(this.ctx);
+                }
             })
             
             // Draw Map
@@ -46,4 +51,8 @@ class World {
         utils.addObject(this.map);
 
     }
+
+    // stop() {
+    //     cancelAnimationFrame();
+    // }
 }
