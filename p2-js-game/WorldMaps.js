@@ -4,7 +4,8 @@ class WorldMap {
         this.canvas = document.querySelector('.game-canvas');
         this.canvasWidth = config.canvasWidth;
         this.canvasHeight = config.canvasHeight;
-        this.mapSlots = config.mapSlots || [];
+        this.availableMapSlots = config.availableMapSlots || [];
+        this.totalMapSlots = [];
         this.breakableWallsPosition = [];
         this.walls = [];
 
@@ -21,7 +22,8 @@ class WorldMap {
 
         for (let countX = 0; countX < this.canvasWidth; countX += 16) {
             for (let countY = 0; countY < this.canvasHeight; countY += 16) {
-                this.mapSlots.push([countX, countY]);
+                this.availableMapSlots.push([countX, countY]);
+                this.totalMapSlots.push([countX, countY]);
             }
         }
 
@@ -41,16 +43,17 @@ class WorldMap {
         
         this.canBreak = breakable || false;
 
-        for (let index = 0; index < this.mapSlots.length; index++) {
+        for (let index = 0; index < this.availableMapSlots.length; index++) {
             for (let indexTwo = 0; indexTwo < this.walls.length; indexTwo++) {
-                if (JSON.stringify(this.mapSlots[index]) == JSON.stringify(this.walls[indexTwo])) {
-                    this.mapSlots.splice(index, 1);
+                if (JSON.stringify(this.availableMapSlots[index]) == JSON.stringify(this.walls[indexTwo])) {
+                    this.availableMapSlots.splice(index, 1);
+                    this.totalMapSlots.splice(index, 1);
                 }
             } 
         }
 
         if (this.canBreak) {
-            this.breakableWallsPosition.push(`${wallX}, ${wallY}`)
+            this.breakableWallsPosition.push([wallX, wallY]);
         }
     }
 
@@ -107,14 +110,7 @@ window.worldMaps = {
     Demo: {
         mapSrc: 'assets/maps/Blocks.png',
         gameObjects: {
-            // hero: new Person({
-            //     mainCharacter: true,
-            // }),
-            // sub: new Person({
-            //     npc: true,
-            //     locationX: utils.grid(0),
-            //     locationY: utils.grid(1),
-            // })
+            
         },
         
     }
