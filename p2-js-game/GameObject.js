@@ -98,9 +98,7 @@ class Person extends GameObjects {
 
         let bombIndex = 0;
         let currentBombLocation = [];
-        let breakableWallIndex = [];
         let nearBreakableWall = [];
-        let wallIndex = [];
 
         if (this.existingBomb < this.bombCount) {
             //checks if the bomb is already placed in main character's current position
@@ -135,46 +133,37 @@ class Person extends GameObjects {
                     //search the walls that will be destroyed
                     nearBreakableWall = state.map.breakableWallsPosition.filter((position) => {
                         return (Math.abs(position[0] - (parseInt(currentBombLocation[0]))) <= this.bombExpolosionRange && position[1] == parseInt(currentBombLocation[1]))
-                        || (Math.abs(position[1] - (parseInt(currentBombLocation[1]))) <= this.bombExpolosionRange && position[0] == parseInt(currentBombLocation[0]));
+                        || (Math.abs(position[0] - (parseInt(currentBombLocation[0]))) <= 2 && Math.abs(position[1] - (parseInt(currentBombLocation[1]))) <= this.bombExpolosionRange);
                     })
-
-                    console.log(nearBreakableWall)
                     
-                    //search for the identifier(index) of the walls that will be destroyed
                     for (let outerCount = 0; outerCount < nearBreakableWall.length; outerCount++) {
+                        
+                        
+                        //search for the identifier(coordinates) of the walls that will be destroyed
                         for (let innerCount = 0; innerCount < state.map.breakableWallsPosition.length; innerCount++) {
                             if (state.map.breakableWallsPosition[innerCount].toString() == nearBreakableWall[outerCount].toString()) {
+
+                                //remove breakable walls
                                 delete state.map.gameObjects[`wall ${nearBreakableWall[outerCount].toString()}`];
                                 state.map.breakableWallsPosition.splice(innerCount, 1);
                             }
                         }
-                    }
 
-                    
-                    //check the index of the destroyed wall from the list of walls
-                    for (let outerCount = 0; outerCount < nearBreakableWall.length; outerCount++) {
+                        
+                        //check the index of the destroyed wall from the list of walls
                         for (let innerCount = 0; innerCount < state.map.walls.length; innerCount++) {
                             if (state.map.walls[innerCount].toString() == nearBreakableWall[outerCount].toString()) {
-                                // wallIndex.push(outerCount);
+
+                                //remove destroyed walls from the list of walls
                                 state.map.walls.splice(innerCount, 1);
                             }
                         }
                     }
 
-
-                    //delete the destroyed block in the list of breakable blocks
-                    // if (breakableWallIndex != -1) {
-                        for (let index = 0; index < nearBreakableWall.length; index++) {
-                            // delete state.map.gameObjects[`wall${breakableWallIndex[index] + 1}`];
-                            // state.map.walls.splice(wallIndex[index], 1);
-                            // state.map.breakableWallsPosition.splice(breakableWallIndex[index], 1);
-                            // console.log(`wall: ${wallIndex[index]}, breakwall: ${breakableWallIndex[index]}, nearbreak: ${nearBreakableWall[index]} `)
-                            // console.log(state.map.breakableWallsPosition)
-                            // wallIndex.splice(index, 1);
-                            // breakableWallIndex.splice(index, 1);
-                            nearBreakableWall.splice(index, 1);
-                        }
-                    // }
+                    //clear list of brekable walls that are near the bomb
+                    for (let index = 0; index < nearBreakableWall.length; index++) {
+                        nearBreakableWall.splice(index, 1);
+                    }
                 }, 2000);
             }
         }
