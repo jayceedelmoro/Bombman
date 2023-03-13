@@ -34,6 +34,8 @@ class Person extends GameObjects {
         this.bombCount = 2;
         this.existingBomb = 0;
         this.existingBombArray = [];
+        this.bombRange = 1;
+        this.bombExpolosionRange = (16 * this.bombRange) + 8;
 
         //Specify the movement on the canvas
         this.directionMovement = {
@@ -93,48 +95,86 @@ class Person extends GameObjects {
     }
 
     placeBomb(state) {
+
         let bombIndex = 0;
         let currentBombLocation = [];
-        let breakableWallIndex = 0;
-        let wallIndex = 0;
-        // this.existingBombArray.some(function(ele){
-        //     console.log(JSON.stringify(ele) == JSON.stringify([this.locationX, this.locationY]));
-        //   });
+        let breakableWallIndex = [];
+        let nearBreakableWall = [];
+        let wallIndex = [];
 
         if (this.existingBomb < this.bombCount) {
+            //checks if the bomb is already placed in main character's current position
             if (!this.existingBombArray.includes(`${this.locationX}, ${this.locationY}`)) {
                 this.existingBombArray.push(`${this.locationX}, ${this.locationY}`);
+
+                //check the index of the placed bomb that will be used as an identifier
                 bombIndex = this.existingBombArray.indexOf(`${this.locationX}, ${this.locationY}`)
+
+                //coordinates of the placed bomb
                 currentBombLocation = this.existingBombArray[bombIndex].split(',');
+
+                //add bomb object
                 state.map.gameObjects[`bomb${bombIndex}`] = new BombBlock({
                     locationX: this.locationX,
                     locationY: this.locationY,
                 });
-                this.existingBomb +=1;
-                console.log(state.map.walls);
 
+                //increase number of bombs placed
+                this.existingBomb +=1;
+
+                //this will make the bomb disapear
                 setTimeout(() => {
+
+                    //remove the bomb object
                     delete state.map.gameObjects[`bomb${bombIndex}`];
                     this.existingBomb -=1;
+                    
+                    //remove the bomb on the bomb array
                     this.existingBombArray.splice(bombIndex, 1)
                     
-                    breakableWallIndex = state.map.breakableWallsPosition.indexOf(`${parseInt(currentBombLocation[0]) + 16},${currentBombLocation[1]}`);
+                    //search the walls that will be destroyed
+                    nearBreakableWall = state.map.breakableWallsPosition.filter((position) => {
+                        return (Math.abs(position[0] - (parseInt(currentBombLocation[0]))) <= this.bombExpolosionRange && position[1] == parseInt(currentBombLocation[1]))
+                        || (Math.abs(position[1] - (parseInt(currentBombLocation[1]))) <= this.bombExpolosionRange && position[0] == parseInt(currentBombLocation[0]));
+                    })
+
+                    console.log(nearBreakableWall)
                     
-                    for (let index = 0; index < state.map.walls.length; index++) {
-                        if (state.map.walls[index].toString() == [parseInt(currentBombLocation[0]) + 16,parseInt(currentBombLocation[1])].toString()) {
-                            wallIndex = index;
+                    //search for the identifier(index) of the walls that will be destroyed
+                    for (let outerCount = 0; outerCount < nearBreakableWall.length; outerCount++) {
+                        for (let innerCount = 0; innerCount < state.map.breakableWallsPosition.length; innerCount++) {
+                            if (state.map.breakableWallsPosition[innerCount].toString() == nearBreakableWall[outerCount].toString()) {
+                                delete state.map.gameObjects[`wall ${nearBreakableWall[outerCount].toString()}`];
+                                state.map.breakableWallsPosition.splice(innerCount, 1);
+                            }
                         }
                     }
 
-                    if (breakableWallIndex != -1) {
-                        delete state.map.gameObjects[`wall${breakableWallIndex + 1}`];
-                        console.log(`${parseInt(currentBombLocation[0]) + 16},${currentBombLocation[1]}`);
-                        console.log([parseInt(currentBombLocation[0]) + 16, parseInt(currentBombLocation[1])]);
-                        console.log(wallIndex);
-                        console.log(JSON.stringify([parseInt(currentBombLocation[0]) + 16,parseInt(currentBombLocation[1])]));
-                        console.log(state.map.walls.splice(wallIndex, 1));
-                        console.log(state.map.walls);
+                    
+                    //check the index of the destroyed wall from the list of walls
+                    for (let outerCount = 0; outerCount < nearBreakableWall.length; outerCount++) {
+                        for (let innerCount = 0; innerCount < state.map.walls.length; innerCount++) {
+                            if (state.map.walls[innerCount].toString() == nearBreakableWall[outerCount].toString()) {
+                                // wallIndex.push(outerCount);
+                                state.map.walls.splice(innerCount, 1);
+                            }
+                        }
                     }
+
+
+                    //delete the destroyed block in the list of breakable blocks
+                    // if (breakableWallIndex != -1) {
+                        for (let index = 0; index < nearBreakableWall.length; index++) {
+                            // delete state.map.gameObjects[`wall${breakableWallIndex[index] + 1}`];
+                            // state.map.walls.splice(wallIndex[index], 1);
+                            // state.map.breakableWallsPosition.splice(breakableWallIndex[index], 1);
+                            // console.log(`wall: ${wallIndex[index]}, breakwall: ${breakableWallIndex[index]}, nearbreak: ${nearBreakableWall[index]} `)
+                            // console.log(state.map.breakableWallsPosition)
+                            // wallIndex.splice(index, 1);
+                            // breakableWallIndex.splice(index, 1);
+                            nearBreakableWall.splice(index, 1);
+                        }
+                    // }
                 }, 2000);
             }
         }

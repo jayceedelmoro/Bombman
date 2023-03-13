@@ -17,14 +17,14 @@ const utils = {
 
             position = Math.floor(Math.random()*map.mapSlots.length);
 
-            map.gameObjects[`wall${number}`] = new BreakableBlocks({
+            map.gameObjects[`wall ${[map.mapSlots[position][0], map.mapSlots[position][1]].toString()}`] = new BreakableBlocks({
                 isNotMovable: true,
                 locationX: map.mapSlots[position][0],
                 locationY: map.mapSlots[position][1],
                 src: 'assets/maps/Brick.png',
             });
 
-            map.addWall(map.mapSlots[position][0], map.mapSlots[position][1])
+            map.addWall(map.mapSlots[position][0], map.mapSlots[position][1], true)
         }
 
         //Add Hero
