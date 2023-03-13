@@ -123,7 +123,7 @@ class Bomb {
         this.gameObject = config.gameObject;
     }
 
-    placeBomb(ctx) {
+    bombPosition(ctx) {
         const bombLocationX = this.gameObject.locationX;
         const bombLocationY = this.gameObject.locationY;
         
@@ -133,6 +133,32 @@ class Bomb {
             18, 18, // size of the cut
             bombLocationX, bombLocationY, //location on the canvas
             15, 15  //how big is the image
+        )
+    }
+}
+
+class Door {
+    constructor(config){
+        
+        this.door = new Image();
+        this.door.src = config.src;
+        this.door.onload = () => {
+            this.isDoorLoaded = true;
+        }
+        
+        this.gameObject = config.gameObject;
+    }
+
+    doorPosition(ctx) {
+        const locationX = this.gameObject.locationX;
+        const locationY = this.gameObject.locationY;
+        
+        this.isDoorLoaded && ctx.drawImage(
+            this.door, //img src
+            91, 319, //starting point of the cut in the image
+            22, 19, // size of the cut
+            locationX, locationY, //location on the canvas
+            17, 15  //how big is the image
         )
     }
 }
