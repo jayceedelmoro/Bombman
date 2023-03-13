@@ -31,7 +31,7 @@ class Person extends GameObjects {
         this.npc = config.npc || false;
 
         //Specify bombs
-        this.bombCount = 3;
+        this.bombCount = 2;
         this.existingBomb = 0;
         this.existingBombArray = [];
 
@@ -94,20 +94,47 @@ class Person extends GameObjects {
 
     placeBomb(state) {
         let bombIndex = 0;
+        let currentBombLocation = [];
+        let breakableWallIndex = 0;
+        let wallIndex = 0;
+        // this.existingBombArray.some(function(ele){
+        //     console.log(JSON.stringify(ele) == JSON.stringify([this.locationX, this.locationY]));
+        //   });
+
         if (this.existingBomb < this.bombCount) {
-            if (!this.existingBombArray.includes(`[${this.locationX}, ${this.locationY}]`)) {
-                this.existingBombArray.push(`[${this.locationX}, ${this.locationY}]`);
-                bombIndex = this.existingBombArray.indexOf(`[${this.locationX}, ${this.locationY}]`)
+            if (!this.existingBombArray.includes(`${this.locationX}, ${this.locationY}`)) {
+                this.existingBombArray.push(`${this.locationX}, ${this.locationY}`);
+                bombIndex = this.existingBombArray.indexOf(`${this.locationX}, ${this.locationY}`)
+                currentBombLocation = this.existingBombArray[bombIndex].split(',');
                 state.map.gameObjects[`bomb${bombIndex}`] = new BombBlock({
                     locationX: this.locationX,
                     locationY: this.locationY,
                 });
                 this.existingBomb +=1;
+                console.log(state.map.walls);
 
                 setTimeout(() => {
                     delete state.map.gameObjects[`bomb${bombIndex}`];
                     this.existingBomb -=1;
                     this.existingBombArray.splice(bombIndex, 1)
+                    
+                    breakableWallIndex = state.map.breakableWallsPosition.indexOf(`${parseInt(currentBombLocation[0]) + 16},${currentBombLocation[1]}`);
+                    
+                    for (let index = 0; index < state.map.walls.length; index++) {
+                        if (state.map.walls[index].toString() == [parseInt(currentBombLocation[0]) + 16,parseInt(currentBombLocation[1])].toString()) {
+                            wallIndex = index;
+                        }
+                    }
+
+                    if (breakableWallIndex != -1) {
+                        delete state.map.gameObjects[`wall${breakableWallIndex + 1}`];
+                        console.log(`${parseInt(currentBombLocation[0]) + 16},${currentBombLocation[1]}`);
+                        console.log([parseInt(currentBombLocation[0]) + 16, parseInt(currentBombLocation[1])]);
+                        console.log(wallIndex);
+                        console.log(JSON.stringify([parseInt(currentBombLocation[0]) + 16,parseInt(currentBombLocation[1])]));
+                        console.log(state.map.walls.splice(wallIndex, 1));
+                        console.log(state.map.walls);
+                    }
                 }, 2000);
             }
         }

@@ -5,6 +5,7 @@ class WorldMap {
         this.canvasWidth = config.canvasWidth;
         this.canvasHeight = config.canvasHeight;
         this.mapSlots = config.mapSlots || [];
+        this.breakableWallsPosition = [];
         this.walls = [];
 
         this.mapImage = new Image();
@@ -35,8 +36,10 @@ class WorldMap {
         }
     }
 
-    addWall(wallX, wallY) {
+    addWall(wallX, wallY, breakable) {
         this.walls.push([wallX, wallY]);
+        
+        this.canBreak = breakable || false;
 
         for (let index = 0; index < this.mapSlots.length; index++) {
             for (let indexTwo = 0; indexTwo < this.walls.length; indexTwo++) {
@@ -45,11 +48,15 @@ class WorldMap {
                 }
             } 
         }
+
+        if (this.canBreak) {
+            this.breakableWallsPosition.push(`${wallX}, ${wallY}`)
+        }
     }
 
     isSpaceTaken(currentX, currentY, direction) {
 
-        let isWall;
+        let isWall = false;
 
         if(direction === 'up' ) {
             for(let countX = 0; countX < this.walls.length; countX++){
