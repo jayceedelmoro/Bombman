@@ -10,49 +10,53 @@ const utils = {
     
     addObject(map) {
         
-        let position = Math.floor(Math.random()*map.availableMapSlots.length);
-        let doorPosition = Math.floor(Math.random()*map.totalMapSlots.length);
+        let availableSlots = map.availableMapSlots;
+        let position = this.randomPosition(availableSlots);
+        let doorPosition = this.randomPosition(availableSlots);
 
         //Add door
-        map.gameObjects['door'] = new Person({
+        map.gameObjects['door'] = new DoorBlock({
             isNotMovable: true,
-            locationX: map.availableMapSlots[doorPosition][0],
-            locationY: map.availableMapSlots[doorPosition][1],
+            locationX: availableSlots[doorPosition][0],
+            locationY: availableSlots[doorPosition][1],
         });
+
+        map.doorCoordinates.push(availableSlots[doorPosition][0]);
+        map.doorCoordinates.push(availableSlots[doorPosition][1]);
         
         //Add Breakable Blocks
         for (number = 1; number <= 20; number++) {
             
-        position = Math.floor(Math.random()*map.availableMapSlots.length);
+        position = this.randomPosition(availableSlots);
 
-            map.gameObjects[`wall ${[map.availableMapSlots[position][0], map.availableMapSlots[position][1]].toString()}`] = new BreakableBlocks({
+            map.gameObjects[`wall ${[availableSlots[position][0], availableSlots[position][1]].toString()}`] = new BreakableBlocks({
                 isNotMovable: true,
-                locationX: map.availableMapSlots[position][0],
-                locationY: map.availableMapSlots[position][1],
+                locationX: availableSlots[position][0],
+                locationY: availableSlots[position][1],
                 src: 'assets/maps/Brick.png',
             });
 
-            map.addWall(map.availableMapSlots[position][0], map.availableMapSlots[position][1], true)
+            map.addWall(availableSlots[position][0], availableSlots[position][1], true)
         }
 
         //Add Hero
         map.gameObjects['hero'] = new Person({
             mainCharacter: true,
             useShadow: true,
-            locationX: map.availableMapSlots[position][0],
-            locationY: map.availableMapSlots[position][1],
+            locationX: availableSlots[position][0],
+            locationY: availableSlots[position][1],
         });
         
         // Add Monsters
         // for (number = 1; number <= 3; number++) {
             
-        // position = Math.floor(Math.random()*map.availableMapSlots.length);
+        // position = this.randomPosition(availableSlots);
 
-        //     map.gameObjects[`monster ${[map.availableMapSlots[position][0], map.availableMapSlots[position][1]].toString()}`] = new Monsters({
+        //     map.gameObjects[`monster ${[availableSlots[position][0], availableSlots[position][1]].toString()}`] = new Monsters({
         //         npc: true,
         //         useShadow: true,
-        //         locationX: map.availableMapSlots[position][0],
-        //         locationY: map.availableMapSlots[position][1],
+        //         locationX: availableSlots[position][0],
+        //         locationY: availableSlots[position][1],
         //         src: 'assets/character/people/DemoRpgCharacter.png',
         //     });
         // }
