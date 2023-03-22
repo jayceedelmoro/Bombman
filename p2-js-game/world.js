@@ -3,7 +3,9 @@ class World {
         this.element = config.element;
         this.canvas = document.querySelector('.game-canvas');
         this.ctx = this.canvas.getContext('2d');
+        this.gameFinish = document.getElementById('game-finish');
         this.map = null;
+        this.continueAnimation = true;
     }
 
     startGameRefresh() {
@@ -16,11 +18,14 @@ class World {
                 object.update({
                     arrow: this.directionInput.pressedDirection,
                     map: this.map,
+                    continue: this,
                 });
 
 
                 if (object instanceof BombBlock) {
-                    object.bomb.placeBomb(this.ctx);
+                    object.bomb.bombPosition(this.ctx);
+                } else if (object instanceof DoorBlock) {
+                    object.door.doorPosition(this.ctx);
                 } else {
                     object.sprite.draw(this.ctx);
                 }
@@ -29,11 +34,16 @@ class World {
             // Draw Map
             this.map.drawMap(this.ctx, this.canvas);
 
-            requestAnimationFrame(() => {
-                step();
-            })
+            if (this.continueAnimation) {
+                requestAnimationFrame(step);
+            }
         }
         step();
+    }
+
+    stop() {
+        this.continueAnimation = false;
+        this.gameFinish.style.display = "flex";
     }
 
     init() {
@@ -51,8 +61,4 @@ class World {
         utils.addObject(this.map);
 
     }
-
-    // stop() {
-    //     cancelAnimationFrame();
-    // }
 }

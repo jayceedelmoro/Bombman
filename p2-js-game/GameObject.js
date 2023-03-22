@@ -16,6 +16,10 @@ class GameObjects {
             gameObject: this,
             src: 'assets/character/people/bomber.png',
         });
+        this.door = new Door({
+            gameObject: this,
+            src: 'assets/character/people/bomber.png',
+        });
     }
 
     update() {
@@ -34,7 +38,7 @@ class Person extends GameObjects {
         this.bombCount = 2;
         this.existingBomb = 0;
         this.existingBombArray = [];
-        this.bombRange = 1;
+        this.bombRange = 2;
         this.bombExpolosionRange = (16 * this.bombRange) + 8;
 
         //Specify the movement on the canvas
@@ -64,6 +68,9 @@ class Person extends GameObjects {
         }
         else if (this.mainCharacter && state.arrow && state.arrow === 'bomb') {
             this.placeBomb(state);
+        }
+        else if (this.mainCharacter && (Math.abs(this.locationX - state.map.doorCoordinates[0]) <= 8 && (this.locationY - state.map.doorCoordinates[1] >= -8 && this.locationY - state.map.doorCoordinates[1] <= 1))) {
+            state.continue.stop();
         }
         else {
             this.direction = null;
@@ -132,8 +139,8 @@ class Person extends GameObjects {
                     
                     //search the walls that will be destroyed
                     nearBreakableWall = state.map.breakableWallsPosition.filter((position) => {
-                        return (Math.abs(position[0] - (parseInt(currentBombLocation[0]))) <= this.bombExpolosionRange && position[1] == parseInt(currentBombLocation[1]))
-                        || (Math.abs(position[0] - (parseInt(currentBombLocation[0]))) <= 2 && Math.abs(position[1] - (parseInt(currentBombLocation[1]))) <= this.bombExpolosionRange);
+                        return (Math.abs(position[0] - (parseInt(currentBombLocation[0]))) <= this.bombExpolosionRange && Math.abs(position[1] - (parseInt(currentBombLocation[1]))) <= 1
+                        || (Math.abs(position[0] - (parseInt(currentBombLocation[0]))) <= 2 && Math.abs(position[1] - (parseInt(currentBombLocation[1]))) <= this.bombExpolosionRange));
                     })
                     
                     for (let outerCount = 0; outerCount < nearBreakableWall.length; outerCount++) {
@@ -198,6 +205,12 @@ class BreakableBlocks extends Person{
 }
 
 class BombBlock extends GameObjects {
+    constructor(config) {
+        super(config);
+    }
+}
+
+class DoorBlock extends GameObjects {
     constructor(config) {
         super(config);
     }
