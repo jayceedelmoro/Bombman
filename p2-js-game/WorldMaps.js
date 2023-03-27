@@ -8,6 +8,7 @@ class WorldMap {
         this.totalMapSlots = [];
         this.breakableWallsPosition = [];
         this.walls = [];
+        this.doorCoordinates = [];
 
         this.mapImage = new Image();
         this.mapImage.src = config.mapSrc;
@@ -62,41 +63,41 @@ class WorldMap {
         let isWall = false;
 
         if(direction === 'up' ) {
-            for(let countX = 0; countX < this.walls.length; countX++){
-                if(currentY-1 >= this.walls[countX][1] - 16 &&
-                    currentY <= this.walls[countX][1] + 16 &&
-                    currentX-1 >= this.walls[countX][0] - 14 &&
-                    currentX+1 <= this.walls[countX][0] + 14 ||
+            for(let count = 0; count < this.walls.length; count++){
+                if(currentY-1 >= this.walls[count][1] - 15 &&
+                    currentY <= this.walls[count][1] + 16 &&
+                    currentX-1 >= this.walls[count][0] - 14 &&
+                    currentX+1 <= this.walls[count][0] + 14 ||
                     currentY < 0) {
                     isWall = true;
                 }
             }
         } else if(direction === 'down') {
-            for(let countX = 0; countX < this.walls.length; countX++){
-                if(currentY >= this.walls[countX][1] - 16 &&
-                    currentY+1 <= this.walls[countX][1] + 16 &&
-                    currentX-1 >= this.walls[countX][0] - 14 &&
-                    currentX+1 <= this.walls[countX][0] + 14 ||
+            for(let count = 0; count < this.walls.length; count++){
+                if(currentY >= this.walls[count][1] - 15 &&
+                    currentY+1 <= this.walls[count][1] + 16 &&
+                    currentX-1 >= this.walls[count][0] - 14 &&
+                    currentX+1 <= this.walls[count][0] + 14 ||
                     currentY > this.canvasHeight - 18) {
                     isWall = true;
                 }
             }
         } else if(direction === 'left') {
-            for(let countX = 0; countX < this.walls.length; countX++){
-                if(currentY-1 >= this.walls[countX][1] - 16 &&
-                    currentY+1 <= this.walls[countX][1] + 16 &&
-                    currentX-1 >= this.walls[countX][0] - 14 &&
-                    currentX <= this.walls[countX][0] + 14 ||
+            for(let count = 0; count < this.walls.length; count++){
+                if(currentY-1 >= this.walls[count][1] - 15 &&
+                    currentY+1 <= this.walls[count][1] + 16 &&
+                    currentX-1 >= this.walls[count][0] - 14 &&
+                    currentX <= this.walls[count][0] + 14 ||
                     currentX < 0) {
                     isWall = true;
                 }
             }
         } else if(direction === 'right') {
-            for(let countX = 0; countX < this.walls.length; countX++){
-                if(currentY-1 >= this.walls[countX][1] - 16 &&
-                    currentY+1 <= this.walls[countX][1] + 16 &&
-                    currentX >= this.walls[countX][0] - 14 &&
-                    currentX+1 <= this.walls[countX][0] + 14 ||
+            for(let count = 0; count < this.walls.length; count++){
+                if(currentY-1 >= this.walls[count][1] - 15 &&
+                    currentY+1 <= this.walls[count][1] + 16 &&
+                    currentX >= this.walls[count][0] - 14 &&
+                    currentX+1 <= this.walls[count][0] + 14 ||
                     currentX > this.canvasWidth - 15) {
                     isWall = true;
                 }
@@ -110,7 +111,7 @@ window.worldMaps = {
     Demo: {
         mapSrc: 'assets/maps/Blocks.png',
         gameObjects: {
-            
+
         },
         
     }

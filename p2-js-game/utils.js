@@ -47,26 +47,6 @@ const utils = {
             locationY: availableSlots[position][1],
         });
         
-        // Add Monsters
-        // for (number = 1; number <= 3; number++) {
-            
-        // position = this.randomPosition(availableSlots);
-
-        //     map.gameObjects[`monster ${[availableSlots[position][0], availableSlots[position][1]].toString()}`] = new Monsters({
-        //         npc: true,
-        //         useShadow: true,
-        //         locationX: availableSlots[position][0],
-        //         locationY: availableSlots[position][1],
-        //         src: 'assets/character/people/DemoRpgCharacter.png',
-        //     });
-        // }
-
-        // Add Bomb
-        // map.gameObjects['bomb'] = new GameObjects({
-        //     bombLocationX: 0,
-        //     bombLocationY: 16,
-        // });
-        
     },
 
     drawWholeMap(ctx, width, height, image) {

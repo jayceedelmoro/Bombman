@@ -1,23 +1,25 @@
-function load() {
-    const world = new World({
-        element: document.querySelector('.game-container')
-    });
 
-    world.init();
-};
-
+const world = new World({
+    element: document.querySelector('.game-container'),
+});
 
 let buttonStart = document.getElementById("start");
 buttonStart.addEventListener("click", load)
 
-// let canvas = document.querySelector('.game-canvas');
-// let ctx = canvas.getContext('2d');
+let buttonRestart = document.getElementById("restart");
+buttonRestart.addEventListener("click", reset)
 
-// let buttonLoad = document.getElementById("load");
-// buttonLoad.addEventListener("click", load)
-// let buttonRestart = document.getElementById("restart");
-// buttonRestart.addEventListener("click", reset)
+const instruction = document.getElementById('howto');
 
-// function reset() {
-//     ctx.clearRect(0, 0, canvas.width, canvas.height);
-// }
+function load() {
+    world.init();
+    instruction.style.display = 'none';
+    buttonStart.style.display = 'none';
+};
+
+
+
+function reset() {
+    location.reload();
+    buttonStart.style.display = 'block';
+}
