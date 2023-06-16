@@ -99,7 +99,7 @@ a {
 }
 
 main {
-    background: #000;
+    background: var(--main-bg);
 }
 
 section {
@@ -207,6 +207,7 @@ nav .nav-menu {
 
 nav .nav-menu-item {
     padding: 20px 15px;
+    cursor: pointer;
 }
 
 nav .nav-menu-item a {
@@ -586,10 +587,6 @@ footer {
     nav .nav-menu-item {
         padding: 5px;
         width: 100%;
-    }
-
-    nav .nav-menu-item a {
-        display: block;
         color: var(--main-bg);
     }
 
